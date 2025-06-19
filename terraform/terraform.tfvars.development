@@ -1,0 +1,5 @@
+project_name = "tf-s3-global-state"
+environment  = "development"
+region       = "us-east-1"
+bucket       = "tf-state-8864"
+
