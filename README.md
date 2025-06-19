@@ -3,7 +3,7 @@
 Creates an S3 Bucket with the purpose of housing the state and lock files of multiple Terraform configs.
 
 **Directory Structure**
-
+```
 Global S3 Bucket: my-terraform-state-bucket
 ├── tf-config-1/
 │   └── terraform.tfstate
@@ -11,7 +11,7 @@ Global S3 Bucket: my-terraform-state-bucket
 │   └── terraform.tfstate
 └── tf-config-3/
     └── terraform.tfstate
-
+```
 
 ## Creating the Global Bucket
 
