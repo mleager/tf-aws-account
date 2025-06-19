@@ -2,6 +2,13 @@
 
 Creates an S3 Bucket with the purpose of housing the state and lock files of multiple Terraform configs.
 
+DynamoDB use for state-locking is deprecated.
+
+Uses S3 `use_lockfile` attribute for state locking.
+
+[Terraform Docs](https://developer.hashicorp.com/terraform/language/backend/s3)
+
+
 **Directory Structure**
 ```
 Global S3 Bucket: my-terraform-state-bucket
