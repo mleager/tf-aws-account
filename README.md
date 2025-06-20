@@ -52,3 +52,50 @@ backend "s3" {
 }
 ```
 
+
+## Creating a Composite Action to Use the S3 Backend
+
+To use the S3 Backend per repo without hard-coding each workflow, I created  
+a composite action.
+
+Does the following:
+
+1. Calls setup-terraform action
+2. Calls aws-configure action
+3. Runs terraform format
+4. Runs terraform init with -backend-config from inputs
+5. Runs terraform validate
+6. Runs terraform plan
+
+This allows the action to be used for any terraform workflow.
+
+Example use:
+
+```yaml
+name: Terraform Apply
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - name: Terraform Plan Setup
+        uses: mleager/tf-shared-actions/.github/actions/terraform-plan@main
+        with:
+          # optional - bucket: tf-state-8864
+          key: tf-s3-global-state/terraform.tfstate
+          region: ${{ vars.AWS_REGION }}
+          var_file: terraform.tfvars.development
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -var-file=terraform.tfvars.development -auto-approve
+```
+
