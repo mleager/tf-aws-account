@@ -59,8 +59,9 @@ jobs:
     - name: Terraform Apply
       id: apply
       run: |
-        terraform apply tfplan -auto-approve | tee apply_output.txt
-        echo "exit_code=$?" >> $GITHUB_OUTPUT
+        terraform apply -auto-approve tfplan | tee apply_output.txt
+        exit_code=${PIPESTATUS[0]}
+        echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
 
     - name: Check Terraform Apply Status
       if: steps.apply.outputs.exit_code != 0
