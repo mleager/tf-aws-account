@@ -1,4 +1,4 @@
-name: Terraform Apply
+name: Terraform Plan
 
 on:
   pull_request:
@@ -17,4 +17,6 @@ jobs:
           key: tf-s3-global-state/terraform.tfstate
           region: ${{ vars.AWS_REGION }}
           var_file: terraform.tfvars.development
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
