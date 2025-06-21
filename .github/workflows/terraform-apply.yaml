@@ -1,0 +1,26 @@
+name: Terraform Apply
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - name: Terraform Plan Setup
+        uses: mleager/tf-shared-actions/.github/actions/terraform-plan@main
+        with:
+          bucket: tf-state-8864
+          key: tf-s3-global-state/terraform.tfstate
+          region: ${{ vars.AWS_REGION }}
+          var_file: terraform.tfvars.development
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -var-file=terraform.tfvars.development -auto-approve
+
