@@ -1,9 +1,11 @@
-name: Terraform Apply
+name: Terraform Destroy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      confirm_destroy:
+        description: 'Type "DESTROY" to confirm resource destruction'
+        required: true
 
 jobs:
   terraform:
@@ -21,9 +23,8 @@ jobs:
       run:
         working-directory: ${{ env.CONFIG_DIRECTORY }}
     steps:
-    - name: Terraform Apply
-      id: terraform-apply
-      uses: mleager/tf-shared-actions/.github/actions/terraform-apply@main
+    - name: Terraform Destroy
+      uses: mleager/tf-shared-actions/.github/actions/terraform-destroy@main
       with:
         create_oidc_role: false
         oidc_role: ${{ secrets.OIDC_ROLE }}
